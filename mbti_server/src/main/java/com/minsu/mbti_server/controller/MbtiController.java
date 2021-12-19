@@ -18,6 +18,33 @@ public class MbtiController {
     public Map<String, Object> questions() {
         Map<String, Object> questions = new HashMap<>();
 
+        questions = resultQues();
+
+        return questions;
+    }
+
+    @PostMapping("/answer")
+    public Map<String, Object> answer() {
+        Map<String, Object> answer = new HashMap<>();
+
+        int e_cnt = 1;
+        int i_cnt = 8;
+        int s_cnt = 1;
+        int n_cnt = 8;
+        int t_cnt = 1;
+        int f_cnt = 8;
+        int j_cnt = 1;
+        int p_cnt = 8;
+
+        answer = resultType(e_cnt, i_cnt, s_cnt, n_cnt, t_cnt, f_cnt, j_cnt, p_cnt);
+
+        return answer;
+    }
+
+    public Map<String, Object> resultQues() {
+
+        Map<String, Object> result = new HashMap<>();
+
         List<String> type_e = new ArrayList<>();
         List<String> type_i = new ArrayList<>();
         List<String> type_s = new ArrayList<>();
@@ -107,37 +134,56 @@ public class MbtiController {
         type_p.add("게임의 규칙은 경우에 따라 바뀔 수 있다.");
         type_p.add("나는 일을 그때 그때 해내는 편이다.");
 
-        questions.put("E_TYPE", type_e);
-        questions.put("I_TYPE", type_i);
-        questions.put("S_TYPE", type_s);
-        questions.put("N_TYPE", type_n);
-        questions.put("T_TYPE", type_t);
-        questions.put("F_TYPE", type_f);
-        questions.put("J_TYPE", type_j);
-        questions.put("P_TYPE", type_p);
+        result.put("E_TYPE", type_e);
+        result.put("I_TYPE", type_i);
+        result.put("S_TYPE", type_s);
+        result.put("N_TYPE", type_n);
+        result.put("T_TYPE", type_t);
+        result.put("F_TYPE", type_f);
+        result.put("J_TYPE", type_j);
+        result.put("P_TYPE", type_p);
 
-        return questions;
+        List<Map<String, Object>> quesList = new ArrayList<>();
+
+        for (int i = 0; i < 9; i++) {
+
+            Map<String, Object> quesMap = new HashMap<>();
+
+            quesMap.put("type1", "e");
+            quesMap.put("value1", type_e.get(i));
+            quesMap.put("type2", "i");
+            quesMap.put("value2", type_i.get(i));
+            quesList.add(quesMap);
+
+            quesMap = new HashMap<>();
+            quesMap.put("type1", "s");
+            quesMap.put("value1", type_s.get(i));
+            quesMap.put("type2", "n");
+            quesMap.put("value2", type_n.get(i));
+            quesList.add(quesMap);
+
+            quesMap = new HashMap<>();
+            quesMap.put("type1", "t");
+            quesMap.put("value1", type_t.get(i));
+            quesMap.put("type2", "f");
+            quesMap.put("value2", type_f.get(i));
+            quesList.add(quesMap);
+
+            quesMap = new HashMap<>();
+            quesMap.put("type1", "j");
+            quesMap.put("value1", type_j.get(i));
+            quesMap.put("type2", "p");
+            quesMap.put("value2", type_p.get(i));
+            quesList.add(quesMap);
+
+        }
+
+        result.put("quesList", quesList);
+
+        return result;
     }
 
-    @PostMapping("/answer")
-    public Map<String, Object> answer() {
-        Map<String, Object> answer = new HashMap<>();
-
-        int e_cnt = 1;
-        int i_cnt = 8;
-        int s_cnt = 1;
-        int n_cnt = 8;
-        int t_cnt = 1;
-        int f_cnt = 8;
-        int j_cnt = 1;
-        int p_cnt = 8;
-
-        answer = resultType(e_cnt, i_cnt, s_cnt, n_cnt, t_cnt, f_cnt, j_cnt, p_cnt);
-
-        return answer;
-    }
-
-        public Map<String, Object> resultType(int e_cnt, int i_cnt, int s_cnt, int n_cnt, int t_cnt, int f_cnt , int j_cnt, int p_cnt) {
+    public Map<String, Object> resultType(int e_cnt, int i_cnt, int s_cnt, int n_cnt, int t_cnt, int f_cnt, int j_cnt, int p_cnt) {
 
         Map<String, Object> result = new HashMap<>();
 
@@ -175,52 +221,52 @@ public class MbtiController {
         String ENTP_JOB = "발명가, 과학자, 언론, 마켓팅, 컴퓨터 분석 등";
         String ENTJ_JOB = "판매업, 건축업, 선장, 군인, 경찰관 등";
 
-        if(e_cnt < i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
+        if (e_cnt < i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
             result.put("type", ISTJ);
             result.put("job", ISTJ_JOB);
-        } else if(e_cnt < i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt < i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
             result.put("type", ISTP);
             result.put("job", ISTP_JOB);
-        } else if(e_cnt > i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
             result.put("type", ESTP);
             result.put("job", ESTP_JOB);
-        }else if(e_cnt > i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt > n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
             result.put("type", ESTJ);
             result.put("job", ESTJ_JOB);
-        }else if(e_cnt < i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
+        } else if (e_cnt < i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
             result.put("type", ISFJ);
             result.put("job", ISFJ_JOB);
-        }else if(e_cnt < i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt < i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
             result.put("type", ISFP);
             result.put("job", ISFP_JOB);
-        }else if(e_cnt > i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
             result.put("type", ESFP);
             result.put("job", ESFP_JOB);
-        }else if(e_cnt > i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt > n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
             result.put("type", ESFJ);
             result.put("job", ESFJ_JOB);
-        }else if(e_cnt < i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
+        } else if (e_cnt < i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
             result.put("type", INFJ);
             result.put("job", INFJ_JOB);
-        }else if(e_cnt < i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt < i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
             result.put("type", INFP);
             result.put("job", INFP_JOB);
-        }else if(e_cnt > i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt < p_cnt) {
             result.put("type", ENFP);
             result.put("job", ENFP_JOB);
-        }else if(e_cnt > i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt < n_cnt && t_cnt < f_cnt && j_cnt > p_cnt) {
             result.put("type", ENFJ);
             result.put("job", ENFJ_JOB);
-        }else if(e_cnt < i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
+        } else if (e_cnt < i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
             result.put("type", INTJ);
             result.put("job", INTJ_JOB);
-        }else if(e_cnt < i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt < i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
             result.put("type", INTP);
             result.put("job", INTP_JOB);
-        }else if(e_cnt > i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt < p_cnt) {
             result.put("type", ENTP);
             result.put("job", ENTP_JOB);
-        }else if(e_cnt > i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
+        } else if (e_cnt > i_cnt && s_cnt < n_cnt && t_cnt > f_cnt && j_cnt > p_cnt) {
             result.put("type", ENTJ);
             result.put("job", ENTJ_JOB);
         }
